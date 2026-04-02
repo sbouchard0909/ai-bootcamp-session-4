@@ -12,6 +12,7 @@ A FastAPI application that enables Slalom consultants to register their capabili
 - Register consultant expertise and availability
 - Track skill levels and certifications
 - Manage capability capacity and team assignments
+- Maintain per-consultant skill profiles linked to capabilities
 
 ## Getting Started
 
@@ -34,11 +35,14 @@ A FastAPI application that enables Slalom consultants to register their capabili
 
 ## API Endpoints
 
-| Method | Endpoint                                                          | Description                                                         |
-| ------ | ----------------------------------------------------------------- | ------------------------------------------------------------------- |
-| GET    | `/capabilities`                                                   | Get all capabilities with details and current consultant assignments |
-| POST   | `/capabilities/{capability_name}/register?email=consultant@slalom.com` | Register consultant for a capability                     |
-| DELETE | `/capabilities/{capability_name}/unregister?email=consultant@slalom.com` | Unregister consultant from a capability              |
+| Method | Endpoint                                                                                 | Description                                                          |
+| ------ | ---------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| GET    | `/capabilities`                                                                         | Get all capabilities with details and current consultant assignments |
+| POST   | `/capabilities/{capability_name}/register?email=consultant@slalom.com`                  | Register consultant for a capability                                 |
+| DELETE | `/capabilities/{capability_name}/unregister?email=consultant@slalom.com`                | Unregister consultant from a capability                              |
+| GET    | `/consultants/{email}/skills`                                                            | Get a consultant's skill profile (list of capabilities)              |
+| POST   | `/consultants/{email}/skills` (JSON body: `{ "capability_name": "Cloud Architecture" }`) | Add a capability to a consultant's skill profile                     |
+| DELETE | `/consultants/{email}/skills/{capability_name}`                                         | Remove a capability from a consultant's skill profile                |
 
 ## Data Model
 
@@ -60,6 +64,7 @@ The application uses a consulting-focused data model:
    - Skill level
    - Certifications
    - Availability
+   - **Skill profile**: list of capability identifiers (with structure designed to later support proficiency, evidence, and history)
 
 All data is currently stored in memory for this learning exercise. In a production environment, this would be backed by a robust database system.
 
